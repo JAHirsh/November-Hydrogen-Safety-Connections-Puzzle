@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hydrogen Safety Connections</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: #005e82;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.tile {
+    background: white;
+    border: 2px solid #dddddd;
+    padding: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.selected {
+    background: #bfe2f0;
+    border-color: #005e82;
+}
+
+.group-found {
+    background: #68bd49 !important;
+    color: white;
+    font-weight: bold;
+    cursor: default;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 18px;
+    background: #005e82;
+    border-radius: 4px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:disabled {
+    background: #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Hydrogen Safety Connections</h1>
+<p>Select 4 related terms to form a category.</p>
+
+<div class="grid" id="grid"></div>
+
+<button id="submitBtn" disabled>Submit Selection</button>
+
+<h3 id="message"></h3>
+
+<script>
+const terms = [
+    "Vent Stack", "Flame Arrestor", "Pressure Relief Valve", "Deflagration",
+    "Electrolyzer", "Tube Trailer", "Mobile Refueler", "LH₂ Storage Tank",
+    "Near-Miss", "Incident Report", "Root Cause Analysis", "Corrective Action",
+    "Leak Detection Sensor", "Odorant (None for H₂)", 
+    "Gas Dispersion Modeling", "Lower Flammability Limit"
+];
+
+// Define groups
+const groups = [
+    {
+        items: ["Vent Stack", "Flame Arrestor", "Pressure Relief Valve", "Deflagration"],
+        name: "Explosion / Fire Protection Equipment"
+    },
+    {
+        items: ["Electrolyzer", "Tube Trailer", "Mobile Refueler", "LH₂ Storage Tank"],
+        name: "Hydrogen Infrastructure"
+    },
+    {
+        items: ["Near-Miss", "Incident Report", "Root Cause Analysis", "Corrective Action"],
+        name: "Incident Investigation & Learning"
+    },
+    {
+        items: ["Leak Detection Sensor", "Odorant (None for H₂)", 
+                "Gas Dispersion Modeling", "Lower Flammability Limit"],
+        name: "Gas Behavior & Detection"
+    }
+];
+
+let selected = [];
+const grid = document.getElementById("grid");
+const submitBtn = document.getElementById("submitBtn");
+const message = document.getElementById("message");
+
+// Build tiles
+terms.forEach(term => {
+    const div = document.createElement("div");
+    div.classList.add("tile");
+    div.innerText = term;
+
+    div.onclick = () => toggleSelect(div, term);
+
+    grid.appendChild(div);
+});
+
+function toggleSelect(div, term) {
+    if (div.classList.contains("group-found")) return;
+
+    if (selected.includes(term)) {
+        div.classList.remove("selected");
+        selected = selected.filter(t => t !== term);
+    } else {
+        if (selected.length < 4) {
+            div.classList.add("selected");
+            selected.push(term);
+        }
+    }
+
+    submitBtn.disabled = selected.length !== 4;
+}
+
+submitBtn.onclick = () => {
+    const match = groups.find(g =>
+        g.items.every(i => selected.includes(i))
+    );
+
+    if (match) {
+        // Highlight group
+        Array.from(document.getElementsByClassName("tile")).forEach(tile => {
+            if (match.items.includes(tile.innerText)) {
+                tile.classList.remove("selected");
+                tile.classList.add("group-found");
+            }
+        });
+
+        message.innerText = `Correct! Group found: ${match.name}`;
+        
+        // Remove matched group from pool
+        groups.splice(groups.indexOf(match), 1);
+    } else {
+        message.innerText = "Not a valid group — try again!";
+        document.querySelectorAll(".selected").forEach(tile => tile.classList.remove("selected"));
+    }
+
+    selected = [];
+    submitBtn.disabled = true;
+};
+</script>
+
+</body>
+</html>
