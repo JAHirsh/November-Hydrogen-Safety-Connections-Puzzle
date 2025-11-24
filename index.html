@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Hydrogen Safety Connections Puzzle</title>
+<title>Hydrogen Safety Categories Puzzle</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
@@ -96,7 +96,7 @@ button:disabled {
 
 <body>
 
-<h1>Hydrogen Safety Connections</h1>
+<h1>Hydrogen Safety Categories</h1>
 <p class="subtitle">
   Select 4 related terms to form a category. Inspired by the NYT <em>Connections</em> game.
 </p>
@@ -111,18 +111,18 @@ button:disabled {
 <script>
 // Base list of terms
 const terms = [
-    "Vent Stack", "Flame Arrestor", "Pressure Relief Valve", "Deflagration",
+    "Vent Stack", "Fill Connection", "Pressure Relief Valve", "Rupture Disk",
     "Electrolyzer", "Tube Trailer", "Mobile Refueler", "LH₂ Storage Tank",
     "Near-Miss", "Incident Report", "Root Cause Analysis", "Corrective Action",
-    "Leak Detection Sensor", "Odorant (None for H₂)", 
+    "Leak Detection Sensor", "UV/IR Detector", 
     "Gas Dispersion Modeling", "Lower Flammability Limit"
 ];
 
 // Category definitions
 let groups = [
     {
-        items: ["Vent Stack", "Flame Arrestor", "Pressure Relief Valve", "Deflagration"],
-        name: "Explosion / Fire Protection Equipment"
+        items: ["Vent Stack", "Fill Connection", "Pressure Relief Valve", "Rupture Disk"],
+        name: "Storage Tank Features"
     },
     {
         items: ["Electrolyzer", "Tube Trailer", "Mobile Refueler", "LH₂ Storage Tank"],
@@ -133,9 +133,9 @@ let groups = [
         name: "Incident Investigation & Learning"
     },
     {
-        items: ["Leak Detection Sensor", "Odorant (None for H₂)", 
+        items: ["Leak Detection Sensor", "UV/IR Detector", 
                 "Gas Dispersion Modeling", "Lower Flammability Limit"],
-        name: "Gas Behavior, Detection & Modeling"
+        name: "Hydrogen Behavior, Detection & Modeling"
     }
 ];
 
@@ -165,7 +165,7 @@ function buildTiles() {
     // Reset group definitions so shuffle doesn't break the logic
     groups = [
         {
-            items: ["Vent Stack", "Flame Arrestor", "Pressure Relief Valve", "Deflagration"],
+            items: ["Vent Stack", "Fill Connection", "Pressure Relief Valve", "Rupture Disk"],
             name: "Explosion / Fire Protection Equipment"
         },
         {
@@ -177,9 +177,9 @@ function buildTiles() {
             name: "Incident Investigation & Learning"
         },
         {
-            items: ["Leak Detection Sensor", "Odorant (None for H₂)", 
+            items: ["Leak Detection Sensor", "UV/IR Detector", 
                     "Gas Dispersion Modeling", "Lower Flammability Limit"],
-            name: "Gas Behavior, Detection & Modeling"
+            name: "Hydrogen Behavior, Detection & Modeling"
         }
     ];
 
